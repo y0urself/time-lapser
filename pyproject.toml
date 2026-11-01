@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "castlestube-video-cleanup"
+dynamic = ["version"]
+description = "Select hand activity, preserve camera motion and shorten LEGO build videos"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10,<4.0"
+dependencies = ["numpy>=1.24", "opencv-python>=4.8"]
+
+[project.optional-dependencies]
+mediapipe = ["mediapipe>=0.10.14"]
+yolo = ["ultralytics==8.4.190"]
+
+[project.scripts]
+castlestube-cleanup = "castlestube_cleanup.cli:main"
+
+[project.urls]
+Repository = "https://github.com/y0urself/time-lapser"
+Issues = "https://github.com/y0urself/time-lapser/issues"
+
+[dependency-groups]
+dev = ["ruff>=0.15", "coverage[toml]>=7.6"]
+
+[tool.hatch.version]
+path = "castlestube_cleanup/version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["castlestube_cleanup"]
+
+[tool.hatch.build.targets.sdist]
+include = ["castlestube_cleanup", "tests", "docs", "ffmpeg.py", "README.md", "CHANGELOG.md", "LICENSE", "pyproject.toml", "uv.lock", ".python-version"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP"]
+
+[tool.coverage.run]
+branch = true
+source = ["castlestube_cleanup"]
+omit = ["castlestube_cleanup/__main__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
