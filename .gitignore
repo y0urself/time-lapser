@@ -218,3 +218,47 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# CastleStube project-specific files
+# Python / local environments
+.wheel-venv/
+.ruff_cache/
+coverage.xml
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Source videos, exports and model weights
+*.[mM][oO][vV]
+*.[mM][pP]4
+*.[mM][kK][vV]
+*.[aA][vV][iI]
+*.pt
+*.pth
+*.onnx
+*.task
+models/
+output/
+outputs/
+input/
+videos/
+runs/
+*_analysis.json
+.castlestube-*/
+
+# Small, reviewed public regression fixtures only
+!tests/data/*.mp4
+
+# Local credentials/configuration
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version already merged into main (for example 2.7.0)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    name: Validate release commit
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Build release distributions
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
+        with:
+          python-version: "3.12"
+          uv-version: "0.13.4"
+          cache-dependency-glob: uv.lock
+      - name: Verify requested version matches source
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          uv run --locked python - <<'PY'
+          import os
+          from castlestube_cleanup import __version__
+          if os.environ["RELEASE_VERSION"] != __version__:
+              raise SystemExit(f"Requested version must equal source version {__version__}")
+          PY
+      - name: Build once for GitHub and PyPI
+        run: uv build
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: release-distributions
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  github-release:
+    name: Create GitHub release and tag
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-distributions
+          path: dist/
+      - name: Create release at the tested commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          gh api --method POST "repos/${GH_REPO}/git/refs" \
+            -f "ref=refs/tags/v${RELEASE_VERSION}" -f "sha=${GITHUB_SHA}" > /dev/null
+          gh release create "v${RELEASE_VERSION}" dist/* \
+            --verify-tag --title "v${RELEASE_VERSION}" --generate-notes
+
+  pypi:
+    name: Publish tested distributions to PyPI
+    needs: [build, github-release]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: pypi
+      url: https://pypi.org/project/castlestube-video-cleanup/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-distributions
+          path: dist/
+      - name: Publish with Trusted Publishing
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3

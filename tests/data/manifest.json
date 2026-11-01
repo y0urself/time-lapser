@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "owner": "Jaspar Stach",
+  "interval_convention": "zero-based half-open [start, end), relative to fixture",
+  "annotation": "All 30 source frames of each excerpt visually reviewed; presence labels are not model predictions.",
+  "conversion": "FFmpeg source autorotation baked into pixels; original decoded resolution and 30 fps retained; H.264 CRF 18 yuv420p; audio and source metadata removed. Re-encoded excerpts, not bit-exact originals.",
+  "clips": [
+    {
+      "file": "overhead-hands.mp4",
+      "sha256": "81d4c188dd12fffa0c5b1a9be73c034d67f12bd698802641bff245a52a22501f",
+      "bytes": 1538163,
+      "source": "IMG_6199.MOV",
+      "source_sha256": "b625cbbfb4d914e94212e307f68c8be553d5adb99fdd2a103f097a3d110cb1e7",
+      "source_frame_range": [
+        0,
+        30
+      ],
+      "frames": 30,
+      "fps": "30/1",
+      "decoded_width": 1080,
+      "decoded_height": 1920,
+      "hand_present_spans": [
+        [
+          0,
+          30
+        ]
+      ],
+      "purpose": "Overhead hands manipulating LEGO; positive hand-presence example."
+    },
+    {
+      "file": "empty-lego-detail.mp4",
+      "sha256": "8b44ca583bb6b3cd7e7865f6db2b804c91cd3b396b4d7e28c8529d4ccb02a495",
+      "bytes": 701820,
+      "source": "IMG_6199.MOV",
+      "source_sha256": "b625cbbfb4d914e94212e307f68c8be553d5adb99fdd2a103f097a3d110cb1e7",
+      "source_frame_range": [
+        240,
+        270
+      ],
+      "frames": 30,
+      "fps": "30/1",
+      "decoded_width": 1080,
+      "decoded_height": 1920,
+      "hand_present_spans": [],
+      "purpose": "No hands; LEGO texture previously generated tiny YOLO false positives."
+    }
+  ]
+}
