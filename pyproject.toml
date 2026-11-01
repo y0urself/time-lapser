@@ -14,7 +14,7 @@ dependencies = ["numpy>=1.24", "opencv-python>=4.8"]
 
 [project.optional-dependencies]
 mediapipe = ["mediapipe>=0.10.14"]
-yolo = ["ultralytics==8.4.190"]
+yolo = ["ultralytics==8.4.192"]
 
 [project.scripts]
 castlestube-cleanup = "castlestube_cleanup.cli:main"
