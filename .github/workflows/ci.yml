@@ -43,46 +43,45 @@ jobs:
           .wheel-venv/bin/python -I -m castlestube_cleanup --version
           .wheel-venv/bin/castlestube-cleanup --help
 
-  # TODO: Re-enable the test matrix once the missing video fixture is available.
-  # tests:
-  #   name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
-  #   runs-on: ${{ matrix.os }}
-  #   timeout-minutes: 20
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       include:
-  #         - os: ubuntu-latest
-  #           python: "3.10"
-  #         - os: ubuntu-latest
-  #           python: "3.12"
-  #         - os: ubuntu-latest
-  #           python: "3.13"
-  #         - os: windows-latest
-  #           python: "3.12"
-  #   steps:
-  #     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-  #       with:
-  #         persist-credentials: false
-  #     - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
-  #       with:
-  #         python-version: ${{ matrix.python }}
-  #         uv-version: "0.13.4"
-  #         cache-dependency-glob: uv.lock
-  #     - name: Install FFmpeg (Linux)
-  #       if: runner.os == 'Linux'
-  #       run: sudo apt-get update && sudo apt-get install -y ffmpeg
-  #     - name: Install FFmpeg (Windows)
-  #       if: runner.os == 'Windows'
-  #       shell: pwsh
-  #       run: choco install ffmpeg --no-progress --yes
-  #     - name: Check video tools
-  #       run: |
-  #         ffmpeg -version
-  #         ffprobe -version
-  #     - name: Install locked development dependencies
-  #       run: uv sync --locked
-  #     - name: Unit and synthetic video tests with coverage
-  #       run: uv run --locked coverage run -m unittest discover -v
-  #     - name: Coverage report
-  #       run: uv run --locked coverage report
+  tests:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: ubuntu-latest
+            python: "3.13"
+          - os: windows-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
+        with:
+          python-version: ${{ matrix.python }}
+          uv-version: "0.13.4"
+          cache-dependency-glob: uv.lock
+      - name: Install FFmpeg (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install FFmpeg (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: choco install ffmpeg --no-progress --yes
+      - name: Check video tools
+        run: |
+          ffmpeg -version
+          ffprobe -version
+      - name: Install locked development dependencies
+        run: uv sync --locked
+      - name: Unit and synthetic video tests with coverage
+        run: uv run --locked coverage run -m unittest discover -v
+      - name: Coverage report
+        run: uv run --locked coverage report
