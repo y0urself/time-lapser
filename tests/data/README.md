@@ -2,7 +2,7 @@
 
 These two one-second excerpts come from Jaspar Stach's own LEGO recordings
 `IMG_8947.MOV` and `IMG_6199.MOV` and were selected for public regression testing. The complete
-original recording is not included. Repository licensing applies to these
+original recordings are not included. Repository licensing applies to these
 fixture contributions.
 
 | Clip | Source | Original frame range | Hand labels (fixture-relative) |
