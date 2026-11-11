@@ -15,10 +15,11 @@ changes, local motion, global translation and the ORB fallback.
 ## Real clips measure recognition quality
 
 The initial [public fixtures](../tests/data/README.md) contain two one-second
-excerpts: overhead hands and an empty textured LEGO scene. Their 60 source frames
+excerpts: a landscape building sequence with four hand phases and pauses,
+and an empty portrait LEGO scene. Their 60 source frames
 were visually reviewed for hand presence. `tests.evaluate_models` runs a selected
 local detector and reports recall, precision and false-positive rate as JSON.
-The normal CI checks fixture integrity, decoding and export without ML inference.
+The normal CI checks fixture integrity, decoding, rotation and ordered frame selection with context without ML inference.
 
 Synthetic tests cannot establish whether MediaPipe or YOLO recognizes a hand in
 an overhead LEGO recording. Keep a separate, small regression collection for

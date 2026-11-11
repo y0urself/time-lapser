@@ -18,7 +18,26 @@ class EvaluationTests(unittest.TestCase):
                 self.positive_clip = positive_clip
 
             def present(self, frame, index, fps):
-                return index != 5 if self.positive_clip else index == 6
+                if self.positive_clip:
+                    # Miss positive frame 0 and falsely flag empty frame 5.
+                    return index in (
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        8,
+                        9,
+                        10,
+                        11,
+                        18,
+                        19,
+                        26,
+                        27,
+                        28,
+                        29,
+                    )
+                return index == 6
 
             def close(self):
                 pass
@@ -37,8 +56,8 @@ class EvaluationTests(unittest.TestCase):
             ):
                 self.assertEqual(evaluate_models.main(["--hand-model", str(model)]), 0)
             report = json.loads(output.getvalue())
-            for key, expected in {"tp": 29, "fp": 1, "fn": 1, "tn": 29}.items():
+            for key, expected in {"tp": 14, "fp": 2, "fn": 1, "tn": 43}.items():
                 self.assertEqual(report["total"][key], expected)
-            self.assertAlmostEqual(report["total"]["recall"], 29 / 30)
-            self.assertAlmostEqual(report["total"]["precision"], 29 / 30)
+            self.assertAlmostEqual(report["total"]["recall"], 14 / 15)
+            self.assertAlmostEqual(report["total"]["precision"], 14 / 16)
             self.assertEqual(report["model_sha256"], evaluate_models.digest(model))
