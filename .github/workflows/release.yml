@@ -31,7 +31,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
-      - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
+      - uses: greenbone/actions/uv@918e8837921b8c6ad37f4e06848728395c32d46c # main, 2026-10-31
         with:
           python-version: "3.12"
           uv-version: "0.13.4"
