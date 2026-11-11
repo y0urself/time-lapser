@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.7.0
+## 0.4.0
 
 - Package the existing cleanup script into focused modules with a
   `castlestube-cleanup` console command and module entry point.
@@ -17,19 +17,21 @@
 - Add a manual release workflow that reruns CI, builds distributions once,
   creates the GitHub release and publishes to PyPI through Trusted Publishing.
 
-## 2.6
+## Earlier script versions
+
+### 0.3.0
 
 - Rotate decoded portrait exports clockwise by default; support counterclockwise
   and disabled rotation. Apply rotation to output pixels only.
 - Write rotation-only exports even if all source frames are kept.
 
-## 2.5
+### 0.2.0
 
 - Keep two original frames before and after activity by default.
 - Add optional center dedupe within raw hand phases with protected endpoints,
   context and camera frames; remove only similar interior frames.
 
-## 2.4
+### 0.1.0
 
 - Filter YOLO boxes smaller than a configurable fraction of the analysis image
   (default 0.5%) to suppress tiny false hand detections on LEGO details.
