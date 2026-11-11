@@ -34,7 +34,7 @@ py -3.12 -m pip install ".[yolo]"
 Or install a locally built wheel (substitute the built version):
 
 ```powershell
-py -3.12 -m pip install ".\dist\castlestube_video_cleanup-2.7.0-py3-none-any.whl[yolo]"
+py -3.12 -m pip install ".\dist\castlestube_video_cleanup-0.1.0-py3-none-any.whl[yolo]"
 ```
 
 FFmpeg and FFprobe remain external executables; see [Windows setup](windows.md).
@@ -99,10 +99,10 @@ automation, it does not require Greenbone bot credentials or a signing key.
 1. Update `castlestube_cleanup/version.py` and `CHANGELOG.md` in a PR; run
    `uv lock` to refresh the project version in the lockfile. Review and merge.
 2. In **Actions → Release → Run workflow**, choose `main` and enter the exact
-   version, for example `2.7.0`. Runs from other branches skip all release jobs.
+   version, for example `0.1.0`. Runs from other branches skip all release jobs.
 3. The workflow runs the complete CI, including Windows tests, for the triggering
    commit. It checks that the requested version equals the source version.
-4. It builds wheel and sdist once, creates `v2.7.0` and a GitHub release at that
+4. It builds wheel and sdist once, creates `v0.1.0` and a GitHub release at that
    same tested commit, and attaches those distributions.
 5. A separate job in the `pypi` environment publishes the same artifacts through
    OIDC. Only this job receives `id-token: write`; only the GitHub release job

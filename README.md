@@ -6,7 +6,7 @@ portrait footage for a landscape timeline. Processing happens locally. The goal
 is to reduce repetitive editing while keeping the build understandable.
 
 The command is `castlestube-cleanup`; existing `ffmpeg.py` commands also work
-from this complete checkout. Version 2.7 packages the existing script into modules
+from this complete checkout. Version 0.1.0 packages the existing script into modules
 without changing its selection defaults.
 
 ## Installation
