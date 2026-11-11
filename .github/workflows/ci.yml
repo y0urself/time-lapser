@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
+      - uses: greenbone/actions/uv@918e8837921b8c6ad37f4e06848728395c32d46c # main, 2026-10-31
         with:
           python-version: "3.12"
           uv-version: "0.13.4"
@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: greenbone/actions/uv@f9e65dccc0cf6f336feaed809a005e6121f67a5a # main, 2026-10-31
+      - uses: greenbone/actions/uv@918e8837921b8c6ad37f4e06848728395c32d46c # main, 2026-10-31
         with:
           python-version: ${{ matrix.python }}
           uv-version: "0.13.4"
